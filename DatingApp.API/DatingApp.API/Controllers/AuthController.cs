@@ -47,36 +47,43 @@ namespace DatingApp.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDTO user)
         {
-            var userFromRepo = await _repo.LogIn(user.UserName, user.Password);
-            if(userFromRepo == null)
-            {
-                return Unauthorized();
-            }
-            var claims = new[]
-            {
+            //try
+            //{
+               // throw new Exception("Computer says no");
+                var userFromRepo = await _repo.LogIn(user.UserName, user.Password);
+                if (userFromRepo == null)
+                {
+                    return Unauthorized();
+                }
+                var claims = new[]
+                {
                 new Claim(ClaimTypes.NameIdentifier,userFromRepo.Id.ToString()),
                 new Claim(ClaimTypes.Name, userFromRepo.UserName)
 
             };
-            var key = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(_config.GetSection("AppSettings:Token").Value));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+                var key = new SymmetricSecurityKey(Encoding.UTF8
+                    .GetBytes(_config.GetSection("AppSettings:Token").Value));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-            var tokenDesripter = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = creds
-            };
+                var tokenDesripter = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(claims),
+                    Expires = DateTime.Now.AddDays(1),
+                    SigningCredentials = creds
+                };
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDesripter);
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var token = tokenHandler.CreateToken(tokenDesripter);
 
-            return Ok(new
-            {
-                token  = tokenHandler.WriteToken(token)
-            });
-
+                return Ok(new
+                {
+                    token = tokenHandler.WriteToken(token)
+                });
+            //} catch(Exception ex)
+            //{
+            //    return StatusCode(500, "Computer Says No");
+            //}
+           
         }
 
 
