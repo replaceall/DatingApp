@@ -39,4 +39,5 @@ export const ErrorInterceptorProvider = {
   provide: HTTP_INTERCEPTORS,
   userClass: ErrorInterceptor,
   multi: true
-}
+};
+
