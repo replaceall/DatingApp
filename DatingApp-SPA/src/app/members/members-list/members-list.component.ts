@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/User';
 import { UserService } from '../../_services/User.service';
 import { AlertifyService } from '../../_services/alertify.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-members-list',
@@ -11,17 +11,20 @@ import { Router } from '@angular/router';
 })
 export class MembersListComponent implements OnInit {
   users: User[];
-  constructor(private userService: UserService, private alertify: AlertifyService, private route: Router) { }
+  constructor(private userService: UserService, private alertify: AlertifyService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.loadusers();
+    this.route.data.subscribe(data => {
+      this.users = data['users'];
+    })
   }
-  loadusers() {
-    this.userService.getUsers().subscribe( (users: User[]) => {
-      this.users = users;
-    }, error => {
-      this.alertify.error(error);
-    });
-  }
+  // instaed of using this method, we used resolvers <members-list.resolver.ts>
+  // loadusers() {
+  //   this.userService.getUsers().subscribe( (users: User[]) => {
+  //     this.users = users;
+  //   }, error => {
+  //     this.alertify.error(error);
+  //   });
+  // }
 
 }

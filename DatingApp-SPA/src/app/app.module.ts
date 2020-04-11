@@ -1,10 +1,11 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
+import { NgxGalleryModule } from 'ngx-gallery';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,9 +21,18 @@ import { MessagesComponent } from './messages/messages.component';
 import { ListComponent } from './list/list.component';
 import { appRoutes } from './routes';
 import { MembersCardComponent } from './members/members-card/members-card.component';
+import { MembersDetailComponent } from './members/members-detail/members-detail.component';
+import { MemberDetailResolver } from './resolvers/member-detail.resolver';
+import { MemberListResolver } from './resolvers/member-list.resolver';
 
 export function tokenGetter(){
    return localStorage.getItem('token');
+}
+export class CustomHammerConfig extends HammerGestureConfig  {
+   overrides = {
+       pinch: { enable: false },
+       rotate: { enable: false }
+   };
 }
 
 @NgModule({
@@ -35,7 +45,8 @@ export function tokenGetter(){
       MembersListComponent,
       MessagesComponent,
       ListComponent,
-      MembersCardComponent
+      MembersCardComponent,
+      MembersDetailComponent
    ],
    imports: [
       BrowserModule,
@@ -44,17 +55,22 @@ export function tokenGetter(){
       FormsModule,
       BrowserAnimationsModule,
       BsDropdownModule.forRoot(),
+      TabsModule.forRoot(),
+      NgxGalleryModule,
       RouterModule.forRoot(appRoutes),
       JwtModule.forRoot({
          config: {
             tokenGetter: tokenGetter,
-            whitelistedDomains: ['localhost:56718/'],
+            whitelistedDomains: ['localhost:56718'],
             blacklistedRoutes: ['localhost:56718/api/auth']
          }
       })
    ],
    providers: [
-      ErrorInterceptor
+      ErrorInterceptor,
+      MemberDetailResolver,
+      MemberListResolver,
+      { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }
    ],
    bootstrap: [
       AppComponent
