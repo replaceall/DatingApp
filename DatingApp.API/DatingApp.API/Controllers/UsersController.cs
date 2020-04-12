@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.DTO;
+using DatingApp.API.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -44,25 +45,19 @@ namespace DatingApp.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
         {
-            try
+
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             {
-                if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                {
-                    return Unauthorized();
-                }
-                var userFromRepo = await _repo.GetUser(id);
-                _mapper.Map(userForUpdateDto, userFromRepo);
-                if (await _repo.SaveAll())
-                {
-                    return NoContent();
-                }
-                throw new Exception(string.Format("Update user {0} faild on save", id));
+                return Unauthorized();
             }
-            catch (Exception ex)
+            var userFromRepo = await _repo.GetUser(id);
+            _mapper.Map(userForUpdateDto, userFromRepo);
+            if (await _repo.SaveAll())
             {
-                var some = ex.Message;
-                throw new Exception(some);
+                return NoContent();
             }
+            throw new Exception(string.Format("Update user {0} faild on save", id));
+
         }
     }
 }
