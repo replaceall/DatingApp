@@ -4,6 +4,7 @@ import { logging } from 'protractor';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
+import { User } from '../models/User';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class AuthService {
   baseURL = environment.apiUrl + 'auth/';
   jwtHelper = new JwtHelperService();
   decodedToken: any;
+  currentUser: User;
 constructor(private http: HttpClient) { }
 
   login(model: any) {
@@ -22,6 +24,8 @@ constructor(private http: HttpClient) { }
           const user = response;
           if (user != null) {
             localStorage.setItem('token', user.token );
+            localStorage.setItem('user', JSON.stringify(user.user));
+            this.currentUser = user.user;
             this.decodedToken = this.jwtHelper.decodeToken(user.token);
             console.log(this.decodedToken);
           }
