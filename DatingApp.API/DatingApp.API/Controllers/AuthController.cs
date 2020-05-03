@@ -1,4 +1,5 @@
-﻿using DatingApp.API.Data;
+﻿using AutoMapper;
+using DatingApp.API.Data;
 using DatingApp.API.DTO;
 using DatingApp.API.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +21,13 @@ namespace DatingApp.API.Controllers
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
+        private readonly IMapper _mapper;
 
-        public AuthController(IAuthRepository repo , IConfiguration config)
+        public AuthController(IAuthRepository repo , IConfiguration config, IMapper mapper)
         {
             _repo = repo;
             _config = config;
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
@@ -45,12 +48,12 @@ namespace DatingApp.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserForLoginDTO user)
+        public async Task<IActionResult> Login(UserForLoginDTO userForLogin)
         {
             //try
             //{
                // throw new Exception("Computer says no");
-                var userFromRepo = await _repo.LogIn(user.UserName, user.Password);
+                var userFromRepo = await _repo.LogIn(userForLogin.UserName, userForLogin.Password);
                 if (userFromRepo == null)
                 {
                     return Unauthorized();
@@ -74,10 +77,12 @@ namespace DatingApp.API.Controllers
 
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var token = tokenHandler.CreateToken(tokenDesripter);
+                var user = _mapper.Map<UserForListDto>(userFromRepo);
 
                 return Ok(new
                 {
-                    token = tokenHandler.WriteToken(token)
+                    token = tokenHandler.WriteToken(token),
+                    user
                 });
             //} catch(Exception ex)
             //{
