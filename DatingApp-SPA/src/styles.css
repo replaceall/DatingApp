@@ -4,11 +4,12 @@
 @import '../node_modules/font-awesome/css/font-awesome.min.css';
 @import '../node_modules/alertifyjs/build/css/alertify.css';
 @import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css'; 
+@import '../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
 
 .tab-panel {
     border: 1px solid #ddd;
     padding: 10px;
-    border-radius: 4px;
+    border-radius: 4px; 
   }
   
   .nav-tabs > li.open, .member-tabset > .nav-tabs > li:hover {

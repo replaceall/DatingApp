@@ -16,7 +16,7 @@ export class AuthService {
   jwtHelper = new JwtHelperService();
   decodedToken: any;
   currentUser: User;
-  photoUrl = new BehaviorSubject<string>('../../assets/user.png');
+  photoUrl = new BehaviorSubject<string>('../../assets/original.png');
   currentPhotoUrl = this.photoUrl.asObservable();
 
 constructor(private http: HttpClient) { }
@@ -41,8 +41,8 @@ chnageMemberPhoto(photoUrl: string){
       );
   }
 
-  register(model: any) {
-    return this.http.post(this.baseURL + 'register' , model);
+  register(user: User) {
+    return this.http.post(this.baseURL + 'register' , user);
   }
 
   loggedIn() {
