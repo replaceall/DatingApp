@@ -148,7 +148,7 @@ namespace DatingApp.API.Controllers
 
                 if (result.Result == "ok")
                 {
-                    _repo.Delete(photoFromRepo);
+                    _repo.Delete(photoFromRepo); 
                 }
             }
 
