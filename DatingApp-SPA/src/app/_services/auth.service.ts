@@ -35,6 +35,7 @@ chnageMemberPhoto(photoUrl: string){
             localStorage.setItem('user', JSON.stringify(user.user));
             this.currentUser = user.user;
             this.decodedToken = this.jwtHelper.decodeToken(user.token);
+            this.chnageMemberPhoto(this.currentUser.photoUrl);
             console.log(this.decodedToken);
           }
         })
