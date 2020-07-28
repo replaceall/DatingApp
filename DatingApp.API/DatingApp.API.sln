@@ -9,12 +9,15 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug + Build|Any CPU = Debug + Build|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		Publish|Any CPU = Publish|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CEE4004A-A580-432D-A1CE-8C4583C72782}.Debug + Build|Any CPU.ActiveCfg = Debug + Build|Any CPU
 		{CEE4004A-A580-432D-A1CE-8C4583C72782}.Debug + Build|Any CPU.Build.0 = Debug + Build|Any CPU
 		{CEE4004A-A580-432D-A1CE-8C4583C72782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEE4004A-A580-432D-A1CE-8C4583C72782}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
+		{CEE4004A-A580-432D-A1CE-8C4583C72782}.Publish|Any CPU.Build.0 = Publish|Any CPU
 		{CEE4004A-A580-432D-A1CE-8C4583C72782}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEE4004A-A580-432D-A1CE-8C4583C72782}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
