@@ -36,9 +36,24 @@ namespace DatingApp.API
 
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>( x => {
+            //services.AddDbContext<DataContext>( x => {
+            //    x.UseLazyLoadingProxies();
+            //    x.UseMySql(Configuration.GetConnectionString("DefaultConnectionString"));
+            //});
+            //ConfigureServices(services);
+
+            // For Sqlite
+            //services.AddDbContext<DataContext>(x => {
+            //    x.UseLazyLoadingProxies();
+            //    x.UseSqlite(Configuration.GetConnectionString("DefaultConnectionString"));
+            //});
+            //ConfigureServices(services);
+
+            //For SqlServer
+            services.AddDbContext<DataContext>(x =>
+            {
                 x.UseLazyLoadingProxies();
-                x.UseSqlite(Configuration.GetConnectionString("DefaultConnectionString"));
+                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString"));
             });
             ConfigureServices(services);
         }
@@ -48,9 +63,12 @@ namespace DatingApp.API
         {
             services.AddDbContext<DataContext>(x => {
                 x.UseLazyLoadingProxies();
-                x.UseMySql(Configuration.GetConnectionString("DefaultConnectionString"));
+                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString"));
             });
             ConfigureServices(services);
+
+           // for SQLITE
+
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
