@@ -22,6 +22,6 @@ Technology Used
   
 ******************************************************************************************
 
-Prerequsites:
+Prerequsites to use the code in local machine:
   * Create Cloudinary Account (https://cloudinary.com/users/login)
   * Make sure that required Cloudinary details are present in AppSettings.json
