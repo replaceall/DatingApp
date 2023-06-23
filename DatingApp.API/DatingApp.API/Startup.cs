@@ -61,6 +61,11 @@ namespace DatingApp.API
 
         public void ConfigureProductionServices(IServiceCollection services)
         {
+            //services.AddDbContext<DataContext>(x => {
+            //    x.UseLazyLoadingProxies();
+            //    x.UseMySql(Configuration.GetConnectionString("DefaultConnectionString"));
+            //});
+            //ConfigureServices(services);
             services.AddDbContext<DataContext>(x => {
                 x.UseLazyLoadingProxies();
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString"));
@@ -119,20 +124,23 @@ namespace DatingApp.API
                 app.UseDeveloperExceptionPage();
             } else
             {
-                app.UseExceptionHandler(buider =>
-                {
-                    buider.Run(async context =>
-                    {
-                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        var error = context.Features.Get<IExceptionHandlerFeature>();
-                        if (error != null)
-                        {
-                            context.Response.AddApplicationError(error.Error.Message);
-                            await context.Response.WriteAsync(error.Error.Message);
-                        }
-                    });
-                });
+                //app.UseExceptionHandler(buider =>
+                //{
+                //    buider.Run(async context =>
+                //    {
+                //        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                //        var error = context.Features.Get<IExceptionHandlerFeature>();
+                //        if (error != null)
+                //        {
+                //            context.Response.AddApplicationError(error.Error.Message);
+                //            await context.Response.WriteAsync(error.Error.Message);
+                //        }
+                //    });
+                //});
+                app.UseHsts();
             }
+            app.UseDeveloperExceptionPage();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
